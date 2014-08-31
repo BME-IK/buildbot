@@ -38,6 +38,7 @@ from buildbot.status.web.grid import GridStatusResource
 from buildbot.status.web.grid import TransposedGridStatusResource
 from buildbot.status.web.olpb import OneLinePerBuild
 from buildbot.status.web.pngstatus import PngStatusResource
+from buildbot.status.web.redirectstatus import RedirectStatusResource
 from buildbot.status.web.root import RootPage
 from buildbot.status.web.slaves import BuildSlavesResource
 from buildbot.status.web.status_json import JsonStatusResource
@@ -553,6 +554,7 @@ class WebStatus(service.MultiService):
             root.putChild("json", JsonStatusResource(status))
 
         root.putChild("png", PngStatusResource(status))
+        root.putChild("redirect", RedirectStatusResource(status))
 
         self.site.resource = root
 
