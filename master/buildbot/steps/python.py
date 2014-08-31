@@ -322,3 +322,27 @@ class Sphinx(ShellCommand):
         description = [self.name]
         description.append('%d warnings' % self.warnings)
         return description
+
+
+class TestCoverage(ShellCommand):
+    name = "test coverage"
+    description = ["running", "test coverage"]
+    descriptionDone = ["test coverage"]
+    flunkOnFailure = False
+
+    def __init__(self, *args, **kwargs):
+        self.patterns = kwargs.pop("patterns", None)
+        super(TestCoverage, self).__init__(*args, **kwargs)
+
+    def createSummary(self, log):
+        for line in StringIO(log.getText()).readlines():
+            for p in self.patterns:
+                if line.find(p['pattern']) != -1:
+                    link = line.split(":", 1)[1].strip()
+                    p['link'] = link
+
+        self.descriptionDone = self.descriptionDone[:]
+
+        for p in self.patterns:
+            self.descriptionDone.append('<a href="%s">%s</a>' % (
+                p.get("link", "#"), p['name']))
