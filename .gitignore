@@ -37,3 +37,4 @@ master/docs/tutorial/_build
 _build
 .tox
 /www
+.ropeproject
