@@ -167,8 +167,10 @@ class BuildBox(components.Adapter):
         number = b.getNumber()
         url = path_to_build(req, b)
         reason = b.getReason()
+        ss = b.asDict().get("sourceStamps")
         template = req.site.buildbot_service.templates.get_template("box_macros.html")
-        text = template.module.build_box(reason=reason, url=url, number=number)
+        text = template.module.build_box(reason=reason, url=url,
+                                         number=number, ss=ss)
         class_ = "start"
         if b.isFinished() and not b.getSteps():
             # the steps have been pruned, so there won't be any indication

@@ -16,7 +16,10 @@
 
 {# this is currently just the text part of the boxes #}
 
-{% macro build_box(reason, url, number) -%}
+{% macro build_box(reason, url, number, ss) -%}
+  {% for s in ss %}
+    {% if not s.branch == None and s.branch|length > 0 %}{{ s.branch }}<br />{% endif %}
+  {% endfor %}
   <a title="Reason: {{ reason|e }}" href="{{ url }}">Build {{ number }}</a>
 {%- endmacro %}
 
