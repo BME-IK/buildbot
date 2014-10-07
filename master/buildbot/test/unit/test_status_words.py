@@ -266,7 +266,7 @@ class TestIrcContactChannel(unittest.TestCase):
 
         self.assertEqual(events, [
             ('#buildbot', 'unmuted'),
-            ('#buildbot', 'unmuted, unicode ?'),
+            ('#buildbot', 'unmuted, unicode \xe2\x98\x83'),
         ])
 
     def test_act(self):
@@ -283,7 +283,7 @@ class TestIrcContactChannel(unittest.TestCase):
 
         self.assertEqual(events, [
             ('#buildbot', 'unmuted'),
-            ('#buildbot', 'unmuted, unicode ?'),
+            ('#buildbot', 'unmuted, unicode \xe2\x98\x83'),
         ])
 
     def test_handleMessage_silly(self):
