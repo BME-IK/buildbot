@@ -13,7 +13,7 @@
 #
 # Copyright Buildbot Team Members
 
-
+import os
 import types
 
 from twisted.internet import defer
@@ -559,6 +559,24 @@ class Build(properties.PropertiesMixin):
         eventually(self.releaseLocks)
         self.deferred.callback(self)
         self.deferred = None
+
+        # create symlinks for png status images
+        result = self.result
+        revision = self.build_status.getAllGotRevisions().get("")
+        builder = self.build_status.builder.name
+
+        sizes = ["small", "normal", "large"]
+        PNG_DIR = "/home/cloud/public_html/pngstatus"
+
+        for size in sizes:
+            source = "%s/%s_%s.png" % (PNG_DIR, Results[result], size)
+            link_name = "%s/%s/%s/%s.png" % (PNG_DIR, builder, size, revision)
+
+            try:
+                os.symlink(source, link_name)
+            except OSError:
+                os.remove(link_name)
+                os.symlink(source, link_name)
 
     def releaseLocks(self):
         if self.locks:
